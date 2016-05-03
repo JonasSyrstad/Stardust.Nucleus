@@ -7,10 +7,11 @@
     <ProjectGuid>{4FB08500-4619-4D44-999C-D45071C2CDBB}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Stardust.Nucleus</RootNamespace>
-    <AssemblyName>Stardust.Nucleus</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <RootNamespace>Stardust</RootNamespace>
+    <AssemblyName>Stardust</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -30,8 +31,21 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Excel.4.5">
+      <HintPath>..\Dependencies\Excel.4.5.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=0.86.0.518, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpZipLib.0.86.0\lib\20\ICSharpCode.SharpZipLib.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="JetBrains.Annotations">
+      <HintPath>..\..\..\..\..\Source\Workspaces\NGF-TERS\Main\Stardust\packages\JetBrainsAnnotations.Fody.1.0.4.0\Lib\JetBrains.Annotations.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -40,7 +54,203 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Clusters\BinaryConverterFactory.cs" />
+    <Compile Include="Clusters\ConfiguredItem.cs" />
+    <Compile Include="Clusters\ConfiguredItems.cs" />
+    <Compile Include="Clusters\ConverterTypes.cs" />
+    <Compile Include="Clusters\DefaultComponentRegistration.cs" />
+    <Compile Include="Clusters\EncodingFactory.cs" />
+    <Compile Include="Clusters\EncodingTypeFactory.cs" />
+    <Compile Include="Clusters\ModuleRegistrationFactory.cs" />
+    <Compile Include="Clusters\NamespaceDoc.cs" />
+    <Compile Include="Clusters\ParserFactory.cs" />
+    <Compile Include="Clusters\TransferFactory.cs" />
+    <Compile Include="Clusters\TypeHelper.cs" />
+    <Compile Include="Core\AsyncPump.cs" />
+    <Compile Include="Core\CoreFrameworkModuleImplementations.cs" />
+    <Compile Include="Core\DynamicCompiler\CompilatorFactory.cs" />
+    <Compile Include="Core\DynamicCompiler\CompilatorOptimizer.cs" />
+    <Compile Include="Core\DynamicCompiler\CSharpInjector.cs" />
+    <Compile Include="Core\DynamicCompiler\DslCompilerFactory.cs" />
+    <Compile Include="Core\DynamicCompiler\ICodeInjector.cs" />
+    <Compile Include="Core\DynamicCompiler\IDslCode.cs" />
+    <Compile Include="Core\DynamicCompiler\IDslCompiler.cs" />
+    <Compile Include="Core\DynamicCompiler\InjectorBase.cs" />
+    <Compile Include="Core\DynamicCompiler\LanguageType.cs" />
+    <Compile Include="Core\DynamicCompiler\VBCodeInjector.cs" />
+    <Compile Include="Core\FrameworkInitializer.cs" />
+    <Compile Include="Core\IStardustPerformanceMetrics.cs" />
+    <Compile Include="Core\Pool\ConnectionStringPoolableBase.cs" />
+    <Compile Include="Core\Pool\ConnectionStringPoolContainer.cs" />
+    <Compile Include="Core\Pool\ConnectionStringPoolContainerMetrics.cs" />
+    <Compile Include="Core\Pool\PoolableBase.cs" />
+    <Compile Include="Core\Pool\PoolContainer.cs" />
+    <Compile Include="Core\Pool\PoolContainerBase.cs" />
+    <Compile Include="Core\Pool\PoolFactory.cs" />
+    <Compile Include="Core\Pool\PoolStatus.cs" />
+    <Compile Include="Core\Security\EncryptionKeyContainer.cs" />
+    <Compile Include="Core\Security\FileSigning.cs" />
+    <Compile Include="Core\StreamPoolManager.cs" />
+    <Compile Include="Core\ThreadSynchronizationContext.cs" />
+    <Compile Include="Core\Wcf\IStardustContext.cs" />
+    <Compile Include="Core\Wcf\StardustContextProvider.cs" />
+    <Compile Include="Core\Wcf\TypeHelper.cs" />
+    <Compile Include="Nucleus\BoundAttribute.cs" />
+    <Compile Include="Nucleus\BoundScopeAttribute.cs" />
+    <Compile Include="Nucleus\Configuration\ConfigurationHelper.cs" />
+    <Compile Include="Nucleus\Configuration\ImplementationCollection.cs" />
+    <Compile Include="Nucleus\Configuration\ImplementationDefinition.cs" />
+    <Compile Include="Nucleus\Configuration\MappingElement.cs" />
+    <Compile Include="Nucleus\Configuration\ModuleCollection.cs" />
+    <Compile Include="Nucleus\Configuration\ModuleCreatorConfigurationSettings.cs" />
+    <Compile Include="Nucleus\ContainerFactory.cs" />
+    <Compile Include="Nucleus\ContainerIntegration\Class1.cs" />
+    <Compile Include="Nucleus\ContextProviders\AspNetRequestState.cs" />
+    <Compile Include="Nucleus\ContextProviders\Container.cs" />
+    <Compile Include="Nucleus\ContextProviders\ContextProvider.cs" />
+    <Compile Include="Nucleus\ContextProviders\ExtendedScopeProvider.cs" />
+    <Compile Include="Nucleus\ContextProviders\IControlledProvider.cs" />
+    <Compile Include="Nucleus\ContextProviders\IExtendedScopeProvider.cs" />
+    <Compile Include="Nucleus\ContextProviders\IRequestState.cs" />
+    <Compile Include="Nucleus\ContextProviders\IScopeProvider.cs" />
+    <Compile Include="Nucleus\ContextProviders\IScopeProviderBase.cs" />
+    <Compile Include="Nucleus\ContextProviders\PerRequestProvider.cs" />
+    <Compile Include="Nucleus\ContextProviders\ScopeProviderBase.cs" />
+    <Compile Include="Nucleus\ContextProviders\SessionProvider.cs" />
+    <Compile Include="Nucleus\ContextProviders\SingletonProvider.cs" />
+    <Compile Include="Nucleus\ContextProviders\ThreadProvider.cs" />
+    <Compile Include="Nucleus\ContextProviders\WcfRequestState.cs" />
+    <Compile Include="Nucleus\DefaultScopeAttribute.cs" />
+    <Compile Include="Nucleus\Extensions\ConcurrentBagExtentions.cs" />
+    <Compile Include="Nucleus\Extensions\ContainerExtentions.cs" />
+    <Compile Include="Nucleus\Extensions\Extensions.cs" />
+    <Compile Include="Nucleus\GlobalSuppressions.cs" />
+    <Compile Include="Nucleus\IActivator.cs" />
+    <Compile Include="Nucleus\IBindContext.cs" />
+    <Compile Include="Nucleus\IComponentRegistration.cs" />
+    <Compile Include="Nucleus\IConfigurator.cs" />
+    <Compile Include="Nucleus\IContainer.cs" />
+    <Compile Include="Nucleus\IModuleConfiguration.cs" />
+    <Compile Include="Nucleus\Internals\BindContext.cs" />
+    <Compile Include="Nucleus\Internals\Configurator.cs" />
+    <Compile Include="Nucleus\Internals\InvocationInfo.cs" />
+    <Compile Include="Nucleus\Internals\ResolveContext.cs" />
+    <Compile Include="Nucleus\Internals\ScopeContext.cs" />
+    <Compile Include="Nucleus\Internals\UnbindContext.cs" />
+    <Compile Include="Nucleus\IScopeContext.cs" />
+    <Compile Include="Nucleus\IUnbindContext.cs" />
+    <Compile Include="Nucleus\LogHelper.cs" />
+    <Compile Include="Nucleus\ModuleCreatorException.cs" />
+    <Compile Include="Nucleus\ModuleNotFoundException.cs" />
+    <Compile Include="Nucleus\NamespaceDoc.cs" />
+    <Compile Include="Nucleus\ObjectActivator\ActivatorFactory.cs" />
+    <Compile Include="Nucleus\ObjectActivator\AdvancedActivator.cs" />
+    <Compile Include="Nucleus\ObjectActivator\BindingCache.cs" />
+    <Compile Include="Nucleus\ObjectActivator\BoundActivationContext.cs" />
+    <Compile Include="Nucleus\ObjectActivator\BoundActivator.cs" />
+    <Compile Include="Nucleus\ObjectActivator\BoundObjectInitializer.cs" />
+    <Compile Include="Nucleus\ObjectActivator\DefaultActivator.cs" />
+    <Compile Include="Nucleus\ObjectActivator\ObjectFactory.cs" />
+    <Compile Include="Nucleus\ObjectInitializer.cs" />
+    <Compile Include="Nucleus\Providers\StardustServiceProvider.cs" />
+    <Compile Include="Nucleus\Resolver.cs" />
+    <Compile Include="Nucleus\ResolverHelper.cs" />
+    <Compile Include="Nucleus\Scope.cs" />
+    <Compile Include="Nucleus\ScopeContextActivation.cs" />
+    <Compile Include="Nucleus\TypeResolver\IAssemblyScanningTypeResolver.cs" />
+    <Compile Include="Nucleus\TypeResolver\IConfigurationTypeResolver.cs" />
+    <Compile Include="Nucleus\TypeResolver\IKernel.cs" />
+    <Compile Include="Nucleus\TypeResolver\IKernelContext.cs" />
+    <Compile Include="Nucleus\TypeResolver\IKernelContextCommands.cs" />
+    <Compile Include="Nucleus\TypeResolver\IOptimizer.cs" />
+    <Compile Include="Nucleus\TypeResolver\KernelContext.cs" />
+    <Compile Include="Nucleus\TypeResolver\KernelFactory.cs" />
+    <Compile Include="Nucleus\TypeResolver\StardustIocFactory.cs" />
+    <Compile Include="Nucleus\TypeResolver\TypeExtractor.cs" />
+    <Compile Include="Nucleus\TypeResolver\TypeLocatorNames.cs" />
+    <Compile Include="Nucleus\TypeResolver\TypeLocatorOptimizer.cs" />
+    <Compile Include="Nucleus\TypeResolver\TypeResolverFromAssemblyScanning.cs" />
+    <Compile Include="Nucleus\TypeResolver\TypeResolverFromConfiguration.cs" />
+    <Compile Include="Nucleus\TypeResolver\TypeResolverKernel.cs" />
+    <Compile Include="Nucleus\UsingAttribute.cs" />
+    <Compile Include="Nucleus\Utilities.cs" />
+    <Compile Include="Particles\ByteArrayExtender.cs" />
+    <Compile Include="Particles\CollectionExtender.cs" />
+    <Compile Include="Particles\Collection\ArrayExtensions.cs" />
+    <Compile Include="Particles\Collection\EnumerableExtensions.cs" />
+    <Compile Include="Particles\CompressionHelpers.cs" />
+    <Compile Include="Particles\ConfigurationManagerHelpers.cs" />
+    <Compile Include="Particles\Converters\BinaryConverter.cs" />
+    <Compile Include="Particles\Converters\HexConverter.cs" />
+    <Compile Include="Particles\Converters\IBinaryConverter.cs" />
+    <Compile Include="Particles\CryptoService.cs" />
+    <Compile Include="Particles\DynamicConfigurableObjectBase.cs" />
+    <Compile Include="Particles\EmailHelper.cs" />
+    <Compile Include="Particles\EncodingCheckers\UnicodeBigendianChecker.cs" />
+    <Compile Include="Particles\EncodingCheckers\UnicodeChecker.cs" />
+    <Compile Include="Particles\EncodingCheckers\Utf32Checker.cs" />
+    <Compile Include="Particles\EncodingCheckers\Utf7Checker.cs" />
+    <Compile Include="Particles\EncodingCheckers\Utf8Checker.cs" />
+    <Compile Include="Particles\EncodingType.cs" />
+    <Compile Include="Particles\Encryption.cs" />
+    <Compile Include="Particles\EnumHelper.cs" />
+    <Compile Include="Particles\ExistenceExtensions.cs" />
+    <Compile Include="Particles\FileTransfer\FileTrasfer.cs" />
+    <Compile Include="Particles\FileTransfer\FTPClient.cs" />
+    <Compile Include="Particles\FileTransfer\FtpConnectMode.cs" />
+    <Compile Include="Particles\FileTransfer\FTPControlSocket.cs" />
+    <Compile Include="Particles\FileTransfer\FTPException.cs" />
+    <Compile Include="Particles\FileTransfer\FTPReply.cs" />
+    <Compile Include="Particles\FileTransfer\FtpTransferType.cs" />
+    <Compile Include="Particles\FileTransfer\FtpTrasfer.cs" />
+    <Compile Include="Particles\FileTransfer\HttpFileTrasfer.cs" />
+    <Compile Include="Particles\FileTransfer\IFileTrasfer.cs" />
+    <Compile Include="Particles\FileTransfer\TransfereMethods.cs" />
+    <Compile Include="Particles\IDynamicConfigurableObject.cs" />
+    <Compile Include="Particles\IEncodingChecker.cs" />
+    <Compile Include="Particles\ILogging.cs" />
+    <Compile Include="Particles\ImpersonateUser.cs" />
+    <Compile Include="Particles\IValidateableDto.cs" />
+    <Compile Include="Particles\Logging.cs" />
+    <Compile Include="Particles\LoggingDefaultImplementation.cs" />
+    <Compile Include="Particles\NamespaceDoc.cs" />
+    <Compile Include="Particles\ObjectExtentions.cs" />
+    <Compile Include="Particles\PerfCounter.cs" />
+    <Compile Include="Particles\ProcessActivator.cs" />
+    <Compile Include="Particles\RegexCollction.cs" />
+    <Compile Include="Particles\RuntimeHelper.cs" />
+    <Compile Include="Particles\StardustCoreException.cs" />
+    <Compile Include="Particles\StringExtensions.cs" />
+    <Compile Include="Particles\TableParser\CsvTableParser.cs" />
+    <Compile Include="Particles\TableParser\Document.cs" />
+    <Compile Include="Particles\TableParser\DocumentRow.cs" />
+    <Compile Include="Particles\TableParser\ITableParser.cs" />
+    <Compile Include="Particles\TableParser\OldExcelTableParser.cs" />
+    <Compile Include="Particles\TableParser\Parsers.cs" />
+    <Compile Include="Particles\TableParser\XlsxTableParser.cs" />
+    <Compile Include="Particles\TableParser\XmlTableParser.cs" />
+    <Compile Include="Particles\TabularMapper\DocumentHelper.cs" />
+    <Compile Include="Particles\TabularMapper\FieldMapping.cs" />
+    <Compile Include="Particles\TabularMapper\FileMapping.cs" />
+    <Compile Include="Particles\TabularMapper\ITabularMapper.cs" />
+    <Compile Include="Particles\TabularMapper\MappingDefinition.cs" />
+    <Compile Include="Particles\TabularMapper\TabularMapper.cs" />
+    <Compile Include="Particles\TypeExtensions.cs" />
+    <Compile Include="Particles\Validator\DateTimeValidator.cs" />
+    <Compile Include="Particles\Validator\StringValidator.cs" />
+    <Compile Include="Particles\Xml\Deserializer.cs" />
+    <Compile Include="Particles\Xml\SerializationHelper.cs" />
+    <Compile Include="Particles\Xml\SerializerExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Trace\CallStackItem.cs" />
+    <Compile Include="Trace\ITracer.cs" />
+    <Compile Include="Trace\TraceHandler.cs" />
+    <Compile Include="Trace\Tracer.cs" />
+    <Compile Include="Trace\TracerFactory.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
