@@ -27,7 +27,6 @@
 
 using System;
 using System.Diagnostics;
-using JetBrains.Annotations;
 using Stardust.Nucleus;
 using Stardust.Nucleus.ObjectActivator;
 
@@ -90,13 +89,11 @@ namespace Stardust.Particles
             }
         }
 
-        [StringFormatMethod("format")]
         public static void DebugMessage(string format, params object[] args)
         {
             DebugMessage(string.Format(format,args));
         }
 
-        [StringFormatMethod("format")]
         public static void DebugMessage(string format,EventLogEntryType entryType, params object[] args)
         {
             DebugMessage(string.Format(format, args),entryType);
