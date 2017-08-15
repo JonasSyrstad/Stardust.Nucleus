@@ -29,8 +29,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Threading;
 using Stardust.Core;
-using Stardust.Core.Wcf;
-using Stardust.Interstellar.Trace;
+using Stardust.Nucleus.ScopeProvider;
 using Stardust.Particles;
 
 namespace Stardust.Nucleus.ContextProviders
@@ -51,8 +50,6 @@ namespace Stardust.Nucleus.ContextProviders
             }
             ContainerFactory.Current.Bind(typeof(Guid?), id, Scope.Context);
             ContainerFactory.Current.Bind(typeof(InvokationMarker), new InvokationMarker(DateTime.UtcNow), Scope.Context);
-            ContainerFactory.Current.Bind(typeof(TraceHandler), new TraceHandler(), Scope.Context);
-            ctx.Disposing += CurrentContextOnOperationCompleted;
             return ctx;
         }
 
@@ -172,7 +169,6 @@ namespace Stardust.Nucleus.ContextProviders
             var context = (IStardustContext)sender;
             WaitOperationRelease(context);
             DisposeContext(context);
-            context.Disposing -= CurrentContextOnOperationCompleted;
         }
     }
     internal class WcfRequestState : IRequestState

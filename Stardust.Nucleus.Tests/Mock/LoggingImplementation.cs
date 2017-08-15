@@ -30,7 +30,7 @@ namespace Stardust.Core.CrossCuttingTest.LegacyTests.Mock
 
         private void LogException(Exception exceptionToLog, string additionalDebugInformation)
         {
-            var message = CreateDebugMessage(GetMessageAndStackTraceFromException(exceptionToLog), EventLogEntryType.Error, additionalDebugInformation);
+            var message = CreateDebugMessage(GetMessageAndStackTraceFromException(exceptionToLog), LogType.Error, additionalDebugInformation);
             LogObject.Error(message);
             if (exceptionToLog.InnerException.IsInstance())
                 LogException(exceptionToLog.InnerException, "Inner");
@@ -48,16 +48,16 @@ namespace Stardust.Core.CrossCuttingTest.LegacyTests.Mock
 
         public void HeartBeat()
         {
-            DebugMessage("Heart Beat", EventLogEntryType.SuccessAudit, "Boom boom");
+            DebugMessage("Heart Beat", LogType.Information, "Boom boom");
         }
 
-        public void DebugMessage(string message, EventLogEntryType entryType = EventLogEntryType.Information, string additionalDebugInformation = null)
+        public void DebugMessage(string message, LogType entryType = LogType.Information, string additionalDebugInformation = null)
         {
             var sb = CreateDebugMessage(message, entryType, additionalDebugInformation.ContainsCharacters() ? additionalDebugInformation : "");
             LogObject.Debug(sb.ToString());
         }
 
-        private static StringBuilder CreateDebugMessage(string message, EventLogEntryType entryType, string additionalDebugInformation)
+        private static StringBuilder CreateDebugMessage(string message, LogType entryType, string additionalDebugInformation)
         {
             var sb = new StringBuilder();
             sb.Append(entryType.ToString());

@@ -37,6 +37,7 @@ namespace Stardust.Core.CrossCuttingTest.LegacyTests
     {
         [TestMethod]
         [TestCategory("Security - Signing")]
+        [DeploymentItem("TestFiles/iron-maiden.png")]
         public void SignDocumentTest()
         {
             var file = GetFile();
@@ -48,6 +49,7 @@ namespace Stardust.Core.CrossCuttingTest.LegacyTests
 
         [TestMethod]
         [TestCategory("Security - Signing")]
+        [DeploymentItem("TestFiles/iron-maiden.png")]
         public void EncryptDocument()
         {
             var file = GetFile();
@@ -62,7 +64,7 @@ namespace Stardust.Core.CrossCuttingTest.LegacyTests
 
         private static byte[] GetFile()
         {
-            var file = File.ReadAllBytes(@"C:\Users\Jonas\Pictures\iron maiden sancturay.jpg");
+            var file = File.ReadAllBytes(@"iron-maiden.png");
             return file;
         }
     }

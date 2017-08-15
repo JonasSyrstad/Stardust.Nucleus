@@ -26,6 +26,7 @@
 //
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Stardust.Clusters;
 using Stardust.Particles;
 
 namespace Stardust.Core.CrossCuttingTest.LegacyTests

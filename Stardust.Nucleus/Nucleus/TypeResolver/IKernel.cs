@@ -15,6 +15,7 @@ namespace Stardust.Nucleus.TypeResolver
         void Unbind(Type type, IScopeContext scopeContext, string identifier);
         IEnumerable<KeyValuePair<string, string>> ResolveList(Type type);
 
+        IDictionary<string, IScopeContext> ResolveAllNamed(Type type);
         /// <summary>
         /// </summary>
         void UnbindAll();

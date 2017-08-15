@@ -29,12 +29,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Stardust.Core.Wcf;
 using Stardust.Nucleus.ContainerIntegration;
 using Stardust.Nucleus.ContextProviders;
 using Stardust.Nucleus.Extensions;
 using Stardust.Nucleus.Internals;
 using Stardust.Nucleus.ObjectActivator;
+using Stardust.Nucleus.ScopeProvider;
 using Stardust.Nucleus.TypeResolver;
 using Stardust.Particles;
 
@@ -48,6 +48,15 @@ namespace Stardust.Nucleus
     /// <remarks>Note that xml configuration will override these settings</remarks>
     public static class Resolver
     {
+        static Resolver()
+        {
+            ServiceLocatorFactory.SetServiceLocator(new Locator());
+        }
+
+        private class Locator : IServiceLocator
+        {
+            T IServiceLocator.GetService<T>() => Activate<T>();
+        }
 
         public static IConfigurator GetConfigurator()
         {
@@ -251,7 +260,7 @@ namespace Stardust.Nucleus
         /// <param name="config">an implementation of IModuleConfiguration that contains all bindings</param>
         public static void LoadModuleConfiguration(IBlueprint config)
         {
-            Logging.SetLogger(config.LoggingType);
+            Logging.SetLogger((ILogging)ObjectFactory.Createinstance(config.LoggingType,new object[0]));
             HasExternalIoc = config is IContainerSetup;
             KernelFactory.LoadContainer(config);
             LoadKernel();
@@ -312,7 +321,7 @@ namespace Stardust.Nucleus
         }
 
 
-        internal static IEnumerable<T> ActivateAll<T>()
+        public static IEnumerable<T> ActivateAll<T>()
         {
             return ResolverKernel.GetServices<T>();
         }
@@ -335,6 +344,21 @@ namespace Stardust.Nucleus
         public static IEnumerable<TService> GetAllInstances<TService>()
         {
             return ResolverKernel.GetServices<TService>();
+        }
+
+        public static Dictionary<string, object> GetAllInstancesNamed(Type serviceType)
+        {
+            return ResolverKernel.GetServicesNamed(serviceType);
+        }
+
+        public static Dictionary<string, TService> GetAllInstancesNamed<TService>()
+        {
+            return ResolverKernel.GetServicesNamed<TService>(null);
+        }
+
+        public static Dictionary<string, TService> GetAllInstancesNamed<TService>(string exceptWithName)
+        {
+            return ResolverKernel.GetServicesNamed<TService>(exceptWithName);
         }
 
         /// <summary>

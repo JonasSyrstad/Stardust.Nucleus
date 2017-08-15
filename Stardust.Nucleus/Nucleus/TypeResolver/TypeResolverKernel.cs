@@ -119,5 +119,12 @@ namespace Stardust.Nucleus.TypeResolver
             }
             return item;
         }
+
+        public IDictionary<string, IScopeContext> ResolveAllNamed(Type type)
+        {
+            var items = Optimizer.GetAllSubClassesOfNamed(type);
+
+            return items;
+        }
     }
 }

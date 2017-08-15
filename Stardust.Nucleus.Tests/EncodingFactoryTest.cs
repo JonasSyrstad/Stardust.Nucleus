@@ -28,8 +28,7 @@
 using System.IO;
 using System.Text;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Stardust.Clusters;
-using Stardust.Interstellar;
+using Stardust.Clusters.Clusters;
 using Stardust.Nucleus;
 using Stardust.Nucleus.TypeResolver;
 

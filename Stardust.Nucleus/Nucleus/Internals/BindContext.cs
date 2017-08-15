@@ -154,7 +154,16 @@ namespace Stardust.Nucleus.Internals
 
         public IScopeContext ToConstructor(Func<object> creator, string identifier)
         {
-            var scope = (ScopeContext)To(creator().GetType(), identifier);
+            return ToConstructor(creator().GetType(), creator, identifier);
+        }
+        public IScopeContext ToConstructor(Type type, Func<object> creator)
+        {
+            return ToConstructor(type,creator, TypeLocatorNames.DefaultName);
+        }
+
+        public IScopeContext ToConstructor(Type type,Func<object> creator, string identifier)
+        {
+            var scope = (ScopeContext)To(type, identifier);
             scope.CreatorMethod = creator;
             return scope;
         }

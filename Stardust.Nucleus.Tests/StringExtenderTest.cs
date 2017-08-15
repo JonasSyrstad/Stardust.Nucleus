@@ -30,12 +30,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Stardust.Clusters;
 using Stardust.Core.CrossCuttingTest.LegacyTests.Mock;
 using Stardust.Interstellar;
 using Stardust.Nucleus;
 using Stardust.Nucleus.TypeResolver;
 using Stardust.Particles;
-using Stardust.Particles.Xml;
 
 namespace Stardust.Core.CrossCuttingTest.LegacyTests
 {
@@ -186,81 +186,6 @@ namespace Stardust.Core.CrossCuttingTest.LegacyTests
             bool actual;
             actual = self.IsValid(pattern);
             Assert.AreEqual(expected, actual);
-        }
-
-        [TestMethod]
-        [TestCategory("String extensions")]
-        public void SerializableObjectIsSerializable()
-        {
-            string self = "dette er en test";
-            bool actual = self.IsSerializable();
-            Assert.IsTrue(actual);
-        }
-
-        [TestMethod]
-        [TestCategory("String extensions")]
-        public void NonSerializableObjectIsSerializable()
-        {
-            var self = new NonSerializableObject();
-            bool actual = self.IsSerializable();
-            Assert.IsFalse(actual);
-        }
-
-        [TestMethod]
-        [TestCategory("String extensions")]
-        public void SerializeSafeObject()
-        {
-            var self = "test";
-            var actual = self.Serialize(includeTypeInNamespace: true);
-            Assert.IsTrue(actual.Contains("test"));
-            Assert.IsTrue(actual.Contains(actual.GetType().FullName));
-        }
-
-        [TestMethod]
-        [TestCategory("String extensions")]
-        public void SerializeUnsafeObjectSuccess()
-        {
-            var self = new NonSerializableObject();
-            self.AString = "test";
-            self.AnInt = 12;
-            var actual = self.Serialize("http://unsafe.com/", true);
-            Assert.IsTrue(actual.Contains("test"));
-            Assert.IsTrue(actual.Contains("http://unsafe.com/"));
-        }
-
-        [TestMethod]
-        [TestCategory("String extensions")]
-        public void SerializeUnsafeObjectFails()
-        {
-            var self = new NonSerializableObject();
-            self.AString = "test";
-            self.AnInt = 12;
-            string actual = null;
-            try
-            {
-                actual = self.Serialize("http://unsafe.com/");
-                Assert.Fail();
-            }
-            catch
-            {
-                Assert.AreEqual(null, actual);
-            }
-        }
-
-        string filePath = @"c:\temp\unit_test.xml";
-
-        [TestMethod]
-        [TestCategory("String extensions")]
-        public void SerializeSafeObjectToFile()
-        {
-
-            var self = new NonSerializableObject();
-            self.AString = "test";
-            self.AnInt = 12;
-            if (File.Exists(filePath))
-                File.Delete(filePath);
-            self.SerializeToFile(filePath, true);
-            Assert.IsTrue(File.Exists(filePath));
         }
 
         [TestMethod]

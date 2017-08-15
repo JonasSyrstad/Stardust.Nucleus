@@ -3,7 +3,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
-using Stardust.Core.Wcf;
+using Stardust.Nucleus.ScopeProvider;
 using Stardust.Particles;
 
 namespace Stardust.Core
@@ -16,14 +16,14 @@ namespace Stardust.Core
             if (context != null)
             {
                 return new ThreadSynchronizationContext
-                           {
-                               isSingleThread = true,
-                               Id = context.Id,
-                               OldContext = context,
-                               IsSyncRoot = false,
-                               StardustThreadId = context.StardustThreadId,
-                               StateContainer = context.StateContainer
-                           };
+                {
+                    isSingleThread = true,
+                    Id = context.Id,
+                    OldContext = context,
+                    IsSyncRoot = false,
+                    StardustThreadId = context.StardustThreadId,
+                    StateContainer = context.StateContainer
+                };
             }
             return new ThreadSynchronizationContext { isSingleThread = true };
         }
@@ -159,18 +159,29 @@ namespace Stardust.Core
 
         public void Dispose()
         {
+            if (!IsSyncRoot || SignaledSubscribers)
+            {
+                if (!IsDisposed)
+                {
+                    DebugMessage("disposing {0}", StardustThreadId);
+                    SetSynchronizationContext(OldContext);
+                    Queue.Dispose();
+                    IsDisposed = true;
+                    OldContext = null;
+                }
+                return;
+            }
+            DebugMessage("Cleaning context");
+            SetSynchronizationContext(OldContext);
+            SignalAndClean();
             if (!IsDisposed)
             {
                 DebugMessage("disposing {0}", StardustThreadId);
                 Queue.Dispose();
-                GC.SuppressFinalize(this);
                 IsDisposed = true;
-                return;
+                OldContext = null;
+
             }
-            if (!IsSyncRoot || !SignaledSubscribers) return;
-            DebugMessage("Cleaning context");
-            SetSynchronizationContext(OldContext);
-            SignalAndClean();
             if (!DoLogging) return;
             try
             {
@@ -189,6 +200,7 @@ namespace Stardust.Core
         private int localLogSequence;
 
         private bool isSingleThread;
+        private Action<object> disposingAction;
 
         private void DebugMessage(string format, params object[] args)
         {
@@ -206,7 +218,7 @@ namespace Stardust.Core
         {
             try
             {
-                StateContainer.Dispose();
+                StateContainer?.Dispose();
             }
             catch (Exception ex)
             {
@@ -223,8 +235,7 @@ namespace Stardust.Core
 
         private void SignalAndClean()
         {
-            if (Disposing != null)
-                Disposing(this, new EventArgs());
+            disposingAction?.Invoke(this);
             SignaledSubscribers = true;
             Clean();
         }
@@ -242,11 +253,20 @@ namespace Stardust.Core
 
         internal StardustContextProvider StateContainer { get; private set; }
 
-        public event EventHandler<EventArgs> Disposing;
+        //public event EventHandler<EventArgs> Disposing;
+        public void SetDisconnectorAction(Action<object> action)
+        {
+            disposingAction = action;
+        }
 
         internal void SetOldContext(SynchronizationContext old)
         {
             OldContext = old;
+        }
+
+        public void ClearDisposeActoion()
+        {
+            disposingAction = null;
         }
     }
 }

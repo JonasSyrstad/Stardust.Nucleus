@@ -26,7 +26,6 @@
 //
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Stardust.Interstellar;
 using Stardust.Nucleus;
 using Stardust.Nucleus.TypeResolver;
 using Stardust.Particles;

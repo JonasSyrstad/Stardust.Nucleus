@@ -42,7 +42,7 @@ namespace Stardust.Nucleus
                 Logging = logger;
         }
 
-        internal static void DebugMessage(string message, EventLogEntryType eventLogEntryType = EventLogEntryType.Information)
+        internal static void DebugMessage(string message, LogType eventLogEntryType = LogType.Information)
         {
             if (Logging.IsInstance())
                 Logging.DebugMessage(message, eventLogEntryType);

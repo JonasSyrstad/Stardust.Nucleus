@@ -29,7 +29,6 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Web;
 using Stardust.Core;
-using Stardust.Core.Wcf;
 using Stardust.Particles;
 
 namespace Stardust.Nucleus.ContextProviders

@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{875C5954-48D1-4382-82E6-9316C30B43A4}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Stardust.Particles</RootNamespace>
+    <AssemblyName>Stardust.Particles</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CollectionExtender.cs" />
+    <Compile Include="Collection\ArrayExtensions.cs" />
+    <Compile Include="Collection\EnumerableExtensions.cs" />
+    <Compile Include="ConfigurationManagerHelpers.cs" />
+    <Compile Include="DynamicConfigurableObjectBase.cs" />
+    <Compile Include="EncodingType.cs" />
+    <Compile Include="Encryption.cs" />
+    <Compile Include="EnumHelper.cs" />
+    <Compile Include="ExistenceExtensions.cs" />
+    <Compile Include="IDynamicConfigurableObject.cs" />
+    <Compile Include="IEncodingChecker.cs" />
+    <Compile Include="ILogging.cs" />
+    <Compile Include="IValidateableDto.cs" />
+    <Compile Include="Logging.cs" />
+    <Compile Include="LoggingDefaultImplementation.cs" />
+    <Compile Include="NamespaceDoc.cs" />
+    <Compile Include="ObjectExtentions.cs" />
+    <Compile Include="ProcessActivator.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RegexCollction.cs" />
+    <Compile Include="RuntimeHelper.cs" />
+    <Compile Include="Security\EncryptionKeyContainer.cs" />
+    <Compile Include="Security\FileSigning.cs" />
+    <Compile Include="StardustCoreException.cs" />
+    <Compile Include="StringExtensions.cs" />
+    <Compile Include="TypeExtensions.cs" />
+    <Compile Include="Validator\DateTimeValidator.cs" />
+    <Compile Include="Validator\StringValidator.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="nugetdeploy.config" />
+    <None Include="Stardust.Particles.nuspec" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

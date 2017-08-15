@@ -28,13 +28,12 @@
 using System.IO;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Stardust.Clusters;
+using Stardust.Clusters.Clusters;
+using Stardust.Clusters.FileTransfer;
 using Stardust.Core.Security;
-using Stardust.Interstellar;
 using Stardust.Nucleus;
 using Stardust.Nucleus.TypeResolver;
 using Stardust.Particles;
-using Stardust.Particles.FileTransfer;
 using Stardust.Particles.Collection.Arrays;
 
 namespace Stardust.Core.CrossCuttingTest.LegacyTests
@@ -43,7 +42,7 @@ namespace Stardust.Core.CrossCuttingTest.LegacyTests
     ///This is a test class for TransferFactoryTest and is intended
     ///to contain all TransferFactoryTest Unit Tests
     ///</summary>
-    [TestClass]
+    //[TestClass]
     public class TransferFactoryTest
     {
         private IKernelContext KernelScope;

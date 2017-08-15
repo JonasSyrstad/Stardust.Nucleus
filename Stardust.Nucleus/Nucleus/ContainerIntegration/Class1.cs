@@ -25,6 +25,8 @@ namespace Stardust.Nucleus.ContainerIntegration
 
         IEnumerable<object> GetServices(Type serviceType);
         IExtendedScopeProvider BeginExtendedScope(IExtendedScopeProvider scope);
+        Dictionary<string, T> GetServicesNamed<T>(string exceptWithName);
+        Dictionary<string, object> GetServicesNamed(Type serviceType);
     }
 
     internal sealed class StardustDependencyResolver : IDependencyResolver
@@ -80,6 +82,18 @@ namespace Stardust.Nucleus.ContainerIntegration
         public IExtendedScopeProvider BeginExtendedScope(IExtendedScopeProvider scope)
         {
             return scope;
+        }
+
+        public Dictionary<string, T> GetServicesNamed<T>(string exceptWithName)
+        {
+            if (exceptWithName == null)
+                return (from i in KernelResolver().ResolveAllNamed(typeof(T)) select new { Instance = (T)i.Value.Activate(), Name = i.Key ?? "default" }).ToDictionary(k => k.Name, v => v.Instance);
+            return (from i in KernelResolver().ResolveAllNamed(typeof(T)) where i.Key != exceptWithName select new { Instance = (T)i.Value.Activate(), Name = i.Key ?? "default" }).ToDictionary(k => k.Name, v => v.Instance);
+        }
+
+        public Dictionary<string, object> GetServicesNamed(Type serviceType)
+        {
+            return (from i in KernelResolver().ResolveAllNamed(serviceType) select new { Instance = i.Value.Activate(), Name = i.Key ?? "default" }).ToDictionary(k => k.Name, v => v.Instance);
         }
     }
 

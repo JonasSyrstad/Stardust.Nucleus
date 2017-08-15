@@ -30,9 +30,11 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Stardust.Clusters;
 using Stardust.Interstellar;
 using Stardust.Nucleus;
 using Stardust.Nucleus.TypeResolver;
+using Stardust.Nucleus.Web;
 using Stardust.Particles;
 
 namespace Stardust.Core.CrossCuttingTest.LegacyTests
@@ -69,6 +71,36 @@ namespace Stardust.Core.CrossCuttingTest.LegacyTests
             var expected = typeof(ModuleConfigTest2);
             var actual = Resolver.Activate<IModuleConfigTest>("test2");
             Assert.AreEqual(expected, actual.GetType());
+        }
+
+        [TestMethod]
+        [TestCategory("Resolver configuration")]
+        public void GetAllImplementationsNamed()
+        {
+            Resolver.RemoveAll();
+            Resolver.LoadModuleConfiguration(new ConfigurationSettings());
+            var namedList = Resolver.GetAllInstancesNamed<IModuleConfigTest>();
+            Assert.IsTrue(namedList.Count == 4);
+            Assert.IsInstanceOfType(namedList["test"], typeof(ModuleConfigTest3));
+            Assert.AreEqual(3, ((ModuleConfigTest3)namedList["test"]).ModuleConfigTest.Count());
+
+        }
+
+        [TestMethod]
+        [TestCategory("Resolver configuration")]
+        public void GetInstanceWithConstructorFunc()
+        {
+            
+            Resolver.RemoveAll();
+            ModuleConfigTest.InvocationCounter = 0;
+            Resolver.LoadModuleConfiguration(new ConfigurationSettings());
+            var instance1 = Resolver.Activate<IModuleConfigTest>("test121");
+            var instance2= Resolver.Activate<IModuleConfigTest>("test121");
+            Assert.IsNotNull(instance1);
+            Assert.IsNotNull(instance2);
+            Assert.AreEqual(2, ModuleConfigTest.InvocationCounter);
+            Assert.AreNotSame(instance1,instance2);
+
         }
 
         [TestMethod]
@@ -172,7 +204,13 @@ namespace Stardust.Core.CrossCuttingTest.LegacyTests
                 resolver.Bind<IModuleConfigTest>().To<ModuleConfigTest>();
                 resolver.Bind<IModuleConfigTest>().To<ModuleConfigTest2>("test2");
                 resolver.Bind<IModuleConfigTest>().To<ModuleConfigTest2>(ConsoleKey.Add);
+                resolver.Bind<IModuleConfigTest>().To<ModuleConfigTest>();
                 
+                //var instances = Resolver.GetAllInstances<IModuleConfigTest>();
+                ////resolver.Bind<IModuleConfigTest>().ToInstance(new ModuleConfigTest3(instances), "test");
+                resolver.Bind<IModuleConfigTest>().ToConstructor(() => new ModuleConfigTest3(Resolver.GetAllInstancesNamed<IModuleConfigTest>("test").Values), "test");
+                ModuleConfigTest.InvocationCounter = 0;
+                resolver.Bind<IModuleConfigTest>().ToConstructor(typeof(ModuleConfigTest),() => new ModuleConfigTest(),"test121").SetTransientScope();
             }
 
             public Type LoggingType
@@ -187,15 +225,38 @@ namespace Stardust.Core.CrossCuttingTest.LegacyTests
         }
         public class ModuleConfigTest : IModuleConfigTest
         {
+            public ModuleConfigTest()
+            {
+                InvocationCounter++;
+            }
+            public static int InvocationCounter = 0;
+
         }
 
         public class ModuleConfigTest2 : IModuleConfigTest
         {
         }
+        public class ModuleConfigTest3 : ResolverTests.IModuleConfigTest
+        {
+            public IEnumerable<ResolverTests.IModuleConfigTest> moduleConfigTest;
+
+            public ModuleConfigTest3(IEnumerable<ResolverTests.IModuleConfigTest> moduleConfigTest)
+            {
+                this.moduleConfigTest = moduleConfigTest;
+            }
+
+            public IEnumerable<ResolverTests.IModuleConfigTest> ModuleConfigTest
+            {
+                get { return moduleConfigTest; }
+            }
+        }
     }
 
-    public class Blueprint: CoreFrameworkBlueprint<LoggingDefaultImplementation>
+    public class Blueprint: BlueprintBase<LoggingDefaultImplementation>
     {
-        
+        protected override void ConfigureIoc(IConfigurator configuration)
+        {
+            configuration.BindFactories();
+        }
     }
 }

@@ -1,19 +1,19 @@
 using System.Linq;
 using System.Reflection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Stardust.Clusters;
+using Stardust.Clusters.Clusters;
+using Stardust.Clusters.TableParser;
+using Stardust.Clusters.TabularMapper;
 using Stardust.Core.CrossCuttingTest.LegacyTests.Mock;
-using Stardust.Interstellar;
 using Stardust.Nucleus;
 using Stardust.Nucleus.TypeResolver;
-using Stardust.Particles.TableParser;
-using Stardust.Particles.TabularMapper;
 
 namespace Stardust.Core.CrossCuttingTest.LegacyTests
 {
     [TestClass]
     public class TabularMapperTests
     {
+        private const string TestFilePath = "TabularMappingTestFile.txt";
         private IKernelContext KernelScope;
 
         [TestInitialize]
@@ -30,9 +30,10 @@ namespace Stardust.Core.CrossCuttingTest.LegacyTests
             Resolver.EndKernelScope(KernelScope, true);
         }
 
-        private const string TestFilePath = @"C:\Users\jonsyr\Source\Workspaces\NGF-TERS\Main\Stardust\Stardust.Core.CrossCuttingTest\TestFiles\TabularMappingTestFile.txt";
+        
         [TestMethod()]
         [TestCategory("Tabular Mapper")]
+        [DeploymentItem("TestFiles/TabularMappingTestFile.txt")]
         public void ConvertSimpleStringType()
         {
             var data = Parsers.Delimitered.GetParser().SetHeaderRow(false)
@@ -73,6 +74,7 @@ namespace Stardust.Core.CrossCuttingTest.LegacyTests
 
         [TestMethod()]
         [TestCategory("Tabular Mapper")]
+        [DeploymentItem("TestFiles/TabularMappingTestFile.txt")]
         public void ConvertSimpleTypedType()
         {
             var source = Parsers.Delimitered.GetParser().SetHeaderRow(true).Parse(TestFilePath);
@@ -113,6 +115,7 @@ namespace Stardust.Core.CrossCuttingTest.LegacyTests
 
         [TestMethod()]
         [TestCategory("Tabular Mapper")]
+        [DeploymentItem("TestFiles/TabularMappingTestFile.txt")]
         public void ConvertSimpleTypedTypeWithAutoMap()
         {
             var doc = Parsers.Delimitered.GetParser().SetHeaderRow(true)

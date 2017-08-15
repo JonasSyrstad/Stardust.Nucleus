@@ -48,10 +48,35 @@ namespace Stardust.Nucleus
         /// Binds the service to it self
         /// </summary>
         IScopeContext ToSelf(Enum identifier);
-
+        /// <summary>
+        /// bind the service to the constructor function.
+        /// </summary>
+        /// <param name="creator">The creator function</param>
+        /// <returns></returns>
         IScopeContext ToConstructor(Func<object> creator);
+
+        /// <summary>
+        /// bind the service to the constructor function.
+        /// </summary>
+        /// <param name="creator">The creator function</param>
+        /// <param name="identifier">Implementation key</param>
+        /// <returns></returns>
         IScopeContext ToConstructor(Func<object> creator, string identifier);
 
-        
+        /// <summary>
+        /// bind the service to the constructor function.
+        /// </summary>
+        /// <param name="type">The type of object created through the function</param>
+        /// <param name="creator">The creator function</param>
+        /// <returns></returns>
+        IScopeContext ToConstructor(Type type,Func<object> creator);
+        /// <summary>
+        /// bind the service to the constructor function.
+        /// </summary>
+        /// <param name="type">The type of object created through the function</param>
+        /// <param name="creator">The creator function</param>
+        /// <param name="identifier">Implementation key</param>
+        /// <returns></returns>
+        IScopeContext ToConstructor(Type type, Func<object> creator, string identifier);
     }
 }

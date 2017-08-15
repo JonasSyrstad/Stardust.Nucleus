@@ -120,7 +120,7 @@ namespace Stardust.Core.CrossCuttingTest.LegacyTests
         public void DebugMessageTest()
         {
             
-            Logging.ResetLogger<LoggingImplementation>();
+            //Logging.ResetLogger<LoggingImplementation>();
             ContainerFactory.Current.KillAllInstances();
             File.Delete(filePath);
             var testStart = File.GetLastWriteTime(filePath);
@@ -136,7 +136,7 @@ namespace Stardust.Core.CrossCuttingTest.LegacyTests
         [TestCategory("Logging")]
         public void InsertHeartBeatTest()
         {
-            Logging.ResetLogger<LoggingImplementation>();
+            
             File.Delete(filePath);
             Logging.HeartBeat();
             Assert.IsTrue(File.Exists(filePath));
@@ -151,7 +151,7 @@ namespace Stardust.Core.CrossCuttingTest.LegacyTests
         public void ExceptionMessageTest()
         {
             File.Delete(filePath);
-            Logging.ResetLogger<LoggingImplementation>();
+           
             string t = null;
             try
             {
@@ -177,7 +177,7 @@ namespace Stardust.Core.CrossCuttingTest.LegacyTests
         public void ResetLoggerTest()
         {
             Action<ILogging> initializationHandler = null; // TODO: Initialize to an appropriate value
-            Logging.ResetLogger();
+            
             Assert.IsTrue(Logging.Initialized());
         }
 
@@ -190,7 +190,7 @@ namespace Stardust.Core.CrossCuttingTest.LegacyTests
         public void InitializeModuleCreatorWithDefalutLoggerTest()
         {
             Resolver.GetConfigurator().UnBind<ILogging>().All();
-            Logging.InitializeModuleCreatorWithDefalutLogger();
+         
             Assert.IsTrue(Logging.Initialized());
             Resolver.GetConfigurator().UnBind<ILogging>().AllAndBind().To<Mock.LoggingImplementation>();
         }

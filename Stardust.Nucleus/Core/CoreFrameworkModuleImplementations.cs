@@ -1,15 +1,7 @@
 using System;
-using Stardust.Clusters;
-using Stardust.Core.DynamicCompiler;
 using Stardust.Core.Pool;
-using Stardust.Interstellar.Trace;
 using Stardust.Nucleus;
 using Stardust.Particles;
-using Stardust.Particles.Converters;
-using Stardust.Particles.EncodingCheckers;
-using Stardust.Particles.FileTransfer;
-using Stardust.Particles.TableParser;
-using Stardust.Particles.TabularMapper;
 
 namespace Stardust.Core
 {
@@ -30,15 +22,13 @@ namespace Stardust.Core
     /// </typeparam>
     public class CoreFrameworkBlueprint<T> : IBlueprint
     {
-        internal protected virtual IConfigurator Resolver {get; private set; }
 
         public void Bind(IConfigurator resolver)
         {
-            Resolver = resolver;
-            BindFactories(Resolver);
+           
             resolver.Bind<IStardustPerformanceMetrics>().To<ConnectionStringPoolContainerMetrics>("ConnectionStringPool").SetSingletonScope();
             FrameworkBindings();
-            Resolver.Bind<ITracer>().To<Tracer>().SetTransientScope().DisableOverride();
+            
         }
 
         /// <summary>
@@ -57,55 +47,6 @@ namespace Stardust.Core
         protected internal virtual void FrameworkBindings()
         {}
 
-        private static void BindFactories(IConfigurator Resolver)
-        {
-            BindEncodingFactory(Resolver);
-            BindParserFactory(Resolver);
-            BindTransferFactory(Resolver);
-            BindBinaryConverterFactory(Resolver);
-            BindMiscStuff(Resolver);
-        }
-
-       
-
-        private static void BindMiscStuff(IConfigurator Resolver)
-        {
-            Resolver.Bind<ITabularMapper>().To<TabularMapper>().SetSingletonScope().AllowOverride = false;
-            Resolver.Bind<ICodeInjector>().To<CSharpInjector>(LanguageType.CSharp);
-            Resolver.Bind<ICodeInjector>().To<VbCodeInjector>(LanguageType.VisualBasic);
-        }
-
-
-        private static void BindBinaryConverterFactory(IConfigurator Resolver)
-        {
-            Resolver.Bind<IBinaryConverter>().To<HexConverter>(ConverterTypes.Hex).SetSingletonScope().DisableOverride();
-            Resolver.Bind<IBinaryConverter>().To<BinaryUtf8Converter>(ConverterTypes.BinaryUtf8).SetSingletonScope().DisableOverride();
-            Resolver.Bind<IBinaryConverter>().To<BinaryUnicodeConverter>(ConverterTypes.BinaryUnicode).SetSingletonScope().DisableOverride();
-        }
-
-        private static void BindTransferFactory(IConfigurator Resolver)
-        {
-            Resolver.Bind<IFileTransfer>().To<FileTransfer>(TransferMethods.File).SetTransientScope().DisableOverride();
-            Resolver.Bind<IFileTransfer>().To<HttpFileTrasfer>(TransferMethods.Http).SetTransientScope().DisableOverride();
-            Resolver.Bind<IFileTransfer>().To<FtpTrasfer>(TransferMethods.Ftp).SetTransientScope().DisableOverride();
-            Resolver.Bind<IFileTransfer>().To<FileTransfer>().SetTransientScope().DisableOverride();
-        }
-
-        private static void BindParserFactory(IConfigurator Resolver)
-        {
-            Resolver.Bind<ITableParser>().To<XmlTableParser>(Parsers.SimpleXmlParser).SetTransientScope().DisableOverride();
-            Resolver.Bind<ITableParser>().To<CsvTableParser>(Parsers.Delimitered).SetTransientScope().DisableOverride(); ;
-            Resolver.Bind<ITableParser>().To<XlsTableParser>(Parsers.OldExcel).SetTransientScope().DisableOverride(); ;
-            Resolver.Bind<ITableParser>().To<XlsxTableParser>(Parsers.Excel).SetTransientScope().DisableOverride(); ;
-        }
-
-        private static void BindEncodingFactory(IConfigurator Resolver)
-        {
-            Resolver.Bind<IEncodingChecker>().To<UnicodeBigendianChecker>("1").SetSingletonScope().DisableOverride();
-            Resolver.Bind<IEncodingChecker>().To<UnicodeChecker>("2").SetSingletonScope().DisableOverride();
-            Resolver.Bind<IEncodingChecker>().To<Utf32Checker>("3").SetSingletonScope().DisableOverride();
-            Resolver.Bind<IEncodingChecker>().To<Utf8Checker>("4").SetSingletonScope().DisableOverride();
-            Resolver.Bind<IEncodingChecker>().To<Utf7Checker>("5").SetSingletonScope().DisableOverride();
-        }
+        
     }
 }

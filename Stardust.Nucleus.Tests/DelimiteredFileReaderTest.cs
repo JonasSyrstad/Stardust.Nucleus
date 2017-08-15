@@ -29,11 +29,12 @@ using System;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Stardust.Clusters;
+using Stardust.Clusters.Clusters;
+using Stardust.Clusters.TableParser;
 using Stardust.Interstellar;
 using Stardust.Nucleus;
 using Stardust.Nucleus.TypeResolver;
 using Stardust.Particles;
-using Stardust.Particles.TableParser;
 
 namespace Stardust.Core.CrossCuttingTest.LegacyTests
 {

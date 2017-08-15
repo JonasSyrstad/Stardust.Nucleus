@@ -39,13 +39,46 @@
       <HintPath>..\packages\SharpZipLib.0.86.0\lib\20\ICSharpCode.SharpZipLib.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="log4net, Version=1.2.15.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
-      <HintPath>..\packages\log4net.2.0.5\lib\net45-full\log4net.dll</HintPath>
+    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Stardust.Continuum.Client, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Stardust.Continuum.Client.1.2.5.0\lib\net45\Stardust.Continuum.Client.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Stardust.Interstellar.Rest, Version=2.9.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Stardust.Interstellar.Rest.2.9.1.0\lib\net45\Stardust.Interstellar.Rest.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Stardust.Interstellar.Rest.Annotations, Version=1.4.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Stardust.Interstellar.Rest.Annotations.1.6.0.0\lib\net45\Stardust.Interstellar.Rest.Annotations.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Http, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.3\lib\net45\System.Web.Http.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.2.3\lib\net45\System.Web.Http.WebHost.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
   </ItemGroup>
   <Choose>
     <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
@@ -72,7 +105,6 @@
     <Compile Include="ContextProviderTest.cs" />
     <Compile Include="DateTimeValidatorTest.cs" />
     <Compile Include="DelimiteredFileReaderTest.cs" />
-    <Compile Include="DeserializerTest.cs" />
     <Compile Include="DummyComponentRegistration.cs" />
     <Compile Include="EncodingCheckerTest.cs" />
     <Compile Include="EncodingFactoryTest.cs" />
@@ -93,7 +125,6 @@
     <Compile Include="ModuleCreatorConfigurationSettingsTest.cs" />
     <Compile Include="ModuleCreatorConfiguratorTest.cs" />
     <Compile Include="ModuleCreatorTest.cs" />
-    <Compile Include="ModuleRegistrationFactoryTest.cs" />
     <Compile Include="ObjectExtentionsTest.cs" />
     <Compile Include="ParserFactoryTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -112,18 +143,33 @@
     <None Include="app.config" />
     <None Include="Interface" />
     <None Include="packages.config" />
-    <None Include="TestFiles\NewExcelTestFile.xlsx">
+    <Content Include="TestFiles\NewExcelTestFile.xlsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    </Content>
     <None Include="TestFiles\OldExcelTestFile.xls">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
+    <ProjectReference Include="..\Stardust.Clusters\Stardust.Clusters.csproj">
+      <Project>{1f515abe-a381-44e2-aa22-2d2588f7301a}</Project>
+      <Name>Stardust.Clusters</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Stardust.Interstellar.Trace\Stardust.Interstellar.Trace.csproj">
+      <Project>{e8577fa2-3f56-4cc9-bf18-a0b89f7113d5}</Project>
+      <Name>Stardust.Interstellar.Trace</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Stardust.Nucleus.Web\Stardust.Nucleus.Web.csproj">
+      <Project>{ac696e78-eb0e-48ff-a898-35de9812725a}</Project>
+      <Name>Stardust.Nucleus.Web</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Stardust.Nucleus\Stardust.Nucleus.csproj">
       <Project>{4fb08500-4619-4d44-999c-d45071c2cdbb}</Project>
       <Name>Stardust.Nucleus</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Stardust.Particles\Stardust.Particles.csproj">
+      <Project>{875c5954-48d1-4382-82e6-9316c30b43a4}</Project>
+      <Name>Stardust.Particles</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -134,6 +180,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="TestFiles\DelimiteredTestFile.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TestFiles\iron-maiden.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="TestFiles\TabularMappingTestFile.txt">
